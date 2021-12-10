@@ -36,7 +36,11 @@ async function createCustomRole(){
                          ACTIONS.META_READ_ACCESS]
         const result = await accessControl.createRole(customRole,label,actions)
     }catch(err){
-        console.log(err.message)
+        const errorType = err.data && err.data["api:error"] ? err.data["api:error"]["@type"] : null
+        if(errorType !== 'api:DocumentIdAlreadyExists'){
+            throw err
+        }
+        console.log(`The Document ${customRole} already exists`)
     }
 }
 
@@ -154,21 +158,28 @@ async function run (){
     /*create a custom role*/
     try{
         await createCustomRole()
-        console.log("created the custom role reader ......")
+        console.log("Created the custom role reader ......")
+        console.log("...............")
         /*create all the users and teams*/
         await createUsersAndTeams()
-        console.log("created Organizations and Users ......")
+        console.log("Created Organizations and Users ......")
+        console.log("................")
 
         await createDB()
-        console.log("created Databases ......")
+        console.log("Created Databases ......")
+        console.log("................")
 
         /*see the Team's Users Role*/
         const teamCapabilities = await accessControl.getListUserRoles(team__01)
-        console.log("the Team__01 Users Role", JSON.stringify(teamCapabilities,null,4))
+        console.log("the Team__01 Users Role")
+        console.log( JSON.stringify(teamCapabilities,null,4))
+        console.log(".....................")
 
         /*get all the database under this Organization*/
         const dbList = await accessControl.getDatabaseList(team__01)
-        console.log("Team__01 databases", JSON.stringify(dbList,null,4))
+        console.log("Team__01 databases")
+        console.log(JSON.stringify(dbList,null,4))
+        console.log(".....................")
         
         //the User has a role access level for the Organization and all the databases under this Organization
         //the system administrator (admin) can assign to a User a different role for a specific database
@@ -176,9 +187,9 @@ async function run (){
         await accessControl.createDatabaseRole(team__01,user__03,db__02,adminRole)
         /*return the User roles at database level if setted*/
         const databaseCap= await accessControl.getUserDatabasesRoles(user__03)
-        console.log("The User__03 database Roles", JSON.stringify(databaseCap,null,4))
+        console.log("The User__03 database Roles")
+        console.log(JSON.stringify(databaseCap,null,4))
 
-        await accessControl.addExistsUserToOrganization(team__01,user__03,customRole)
     }catch(err){
         const data = err.data || {}
         console.log(err.message)
@@ -190,7 +201,6 @@ async function run (){
 async function deleteall(){
     await deleteUsersAndTeamsIfExists()
 }
-
 run()
 
 
