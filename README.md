@@ -13,10 +13,10 @@ We are planning to implement api to cover this functionality in the TerminusDB b
 Please [clone and install TerminusDB](https://github.com/terminusdb/terminusdb-bootstrap) and have it
 running.
 
-Please [clone access control tutorial](https://github.com/terminusdb/terminusdb-access-control) 
+Please clone access control tutorial
 
 ```bash
-git clone ....
+git clone https://github.com/terminusdb/terminusdb-access-control.git
 cd terminusdb-access-control
 $ npm install
 
