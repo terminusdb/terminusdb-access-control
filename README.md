@@ -1,4 +1,4 @@
-# TerminusDB 
+# TerminusDB Role-Based Access Control
 
 ![Access Control](./image/accesscontrol__01.png)
 
