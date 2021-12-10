@@ -33,13 +33,13 @@ We start with the main concepts.
 The database user has the capability to access a resource with a specific role.
 
 #### Role
-The roles are a grouping of actions  that the user can perform. (create_database etc..)
+The roles are grouping of actions that the user can perform. (create_database etc..)
 The default Roles that you can find inside terminusDB are: admin (All the actions are allowed ) and consumer.
-You can create in the system database roles for different access needs. 
+You can create roles in the system database for different access needs. 
 
 #### Capability
-It is a relationship between a resource (scope) and a role (what the user can do).
-A capability role defines a set of actions a user assigned the role is allowed to perform over an organization or database.
+A capability is a relationship between a resource (scope) and a role (what the user can do).
+A User with a capability/role is allowed to perform a set of actions over organization and database.
 
 #### Resource
 Organization/Team or Database
