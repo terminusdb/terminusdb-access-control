@@ -1,4 +1,4 @@
-# TerminusDB Role-Based Access Control 
+# TerminusDB Role-Based Access Control
 
 ![Access Control](./image/accesscontrol__01.png)
 
@@ -8,16 +8,16 @@ Here the full [documentations](https://terminusdb.github.io/terminusdb-access-co
 
 In this tutorial, you will learn about the role-based access control in [TerminusDB](https://terminusdb.com). 
 We are going to use the document interface to access the terminusDB system database and manage the access control for three different users. 
-We are planning to implement api to cover this functionality in the TerminusDB but in the meantime you can use this solution.
+We are planning to implement API to cover this functionality in TerminusDB but you can use this solution in the meantime.
 
 ### What is access control?
-At a high level, database access control is a selective restriction of access to data. It consists of two main components: authentication and authorization. In the process of access control, the required security for a particular resource is enforced. Once we establish who the user is and what they can access to, we need to actively prevent that users can access anything they should not.  
+In the process of access control, after we establish who the user is and what he can access to, we need to actively prevent that users can access anything they should not, the required security for a particular resource is enforced. At a high level, database access control is a selective restriction of access to data. It consists of two main components: authentication and authorization.
 
 ### Authentication
-Authentication is a technique used to verify that someone is who they claim to be. Most of the time this verification process includes a username and a password but other methods such as JWT token, PIN number, fingerprint scan, smart card and such are adapted as well. In order to conduct the process of authentication, it is essential that the user has an account in the system so that the authentication mechanism can interrogate that account.
+Authentication is a technique used to verify that someone is who they claim to be. Most of the time this verification process includes a username and a password but other methods such as token, PIN number, fingerprint scan, smart card and such are adapted as well. In order to conduct the process of authentication, it is essential that the user has an account in the system so that the authentication mechanism can interrogate that account.
 
 ### Authorization
-In authorization process, it is established if the user (who is already authenticated) is allowed to have access to a resource. In other words, authorization determines what a user is and is not permitted to do. The level of authorization that is to be given to a user is determined by the metadata concerning the user’s account. 
+In authorization process, it is established if the user (who is already authenticated) is allowed to have access to a resource. In other words, authorization determines what a user is and is not permitted to do. The level of authorization that is to be given to a user is determined by the user role. 
 
 ![Access Control](./image/accesscontrol__02.png)
 
