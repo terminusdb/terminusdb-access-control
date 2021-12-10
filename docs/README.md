@@ -13,7 +13,7 @@ We are planning to implement api to cover this functionality in the TerminusDB b
 Please [clone and install TerminusDB](https://github.com/terminusdb/terminusdb-bootstrap) and have it
 running.
 
-Please [clone access control tutorial](https://github.com/terminusdb/terminusdb-bootstrap) 
+Please [clone access control tutorial](https://github.com/terminusdb/terminusdb-access-control) 
 
 ```bash
 git clone ....
@@ -21,7 +21,8 @@ cd terminusdb-access-control
 $ npm install
 
 ```
-Please read all documentation before start ....
+Here the full documentations [documentations](https://terminusdb.github.io/terminusdb-access-control/#/) 
+
 Now run the example.
 
 ```bash
@@ -52,9 +53,6 @@ We start with the main concepts.
 #### USER 
 The database user has the capability to access a resource with a specific role.
 
-#### Organization/Team
-Group of database
-
 #### Role
 The roles are a grouping of actions  that the user can perform. (create_database etc..)
 The default Roles that you can find inside terminusDB are: admin (All the actions are allowed ) and consumer.
@@ -64,10 +62,12 @@ You can create in the system database roles for different access needs.
 It is a relationship between a resource (scope) and a role (what the user can do).
 A capability role defines a set of actions a user assigned the role is allowed to perform over an organization or database.
 
-
 #### Resource
 Organization/Team or Database
 
+#### Organization/Team
+Group of database
+
 #### Database 
 The databases belong to an organization and they inherit the organization User Role.
-You can override this role, adding a capability/role at database level.
+You can override this role, adding a capability/role at database level to increase the user level of access.
