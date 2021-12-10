@@ -2,7 +2,7 @@
 
 ![Access Control](./image/accesscontrol__01.png)
 
-Here the full documentation [documentations](https://terminusdb.github.io/terminusdb-access-control/#/) 
+Here the full [documentations](https://terminusdb.github.io/terminusdb-access-control/#/) 
 
 ## What is this?
 
