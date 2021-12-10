@@ -2,32 +2,13 @@
 
 ![Access Control](./image/accesscontrol__01.png)
 
+Here the full documentation [documentations](https://terminusdb.github.io/terminusdb-access-control/#/) 
+
 ## What is this?
 
 In this tutorial, you will learn about the role-based access control in [TerminusDB](https://terminusdb.com). 
 We are going to use the document interface to access the terminusDB system database and manage the access control for three different users. 
 We are planning to implement api to cover this functionality in the TerminusDB but in the meantime you can use this solution.
-
-### Install Terminusdb  Access control
-
-Please [clone and install TerminusDB](https://github.com/terminusdb/terminusdb-bootstrap) and have it
-running.
-
-Please [clone access control tutorial](https://github.com/terminusdb/terminusdb-access-control) 
-
-```bash
-git clone ....
-cd terminusdb-access-control
-$ npm install
-
-```
-Here the full documentations [documentations](https://terminusdb.github.io/terminusdb-access-control/#/) 
-
-Now run the example.
-
-```bash
-$ npm run dev
-```
 
 ### What is access control?
 At a high level, database access control is a selective restriction of access to data. It consists of two main components: authentication and authorization. In the process of access control, the required security for a particular resource is enforced. Once we establish who the user is and what they can access to, we need to actively prevent that users can access anything they should not.  
@@ -45,9 +26,7 @@ TerminusDB provides mechanisms to allow users to limit the access to their resou
 
 ![Access Control](./image/accesscontrol__03.png)
 
-Database superusers admin
 You need to be the database administrator to add user, organization and manage access and roles.
-
 We start with the main concepts.
 
 #### USER 
@@ -71,3 +50,25 @@ Group of database
 #### Database 
 The databases belong to an organization and they inherit the organization User Role.
 You can override this role, adding a capability/role at database level to increase the user level of access.
+
+
+### Install Terminusdb  Access control
+
+Please [clone and install TerminusDB](https://github.com/terminusdb/terminusdb-bootstrap) and have it
+running.
+
+Please clone access control tutorial
+
+```bash
+git clone https://github.com/terminusdb/terminusdb-access-control.git
+cd terminusdb-access-control
+$ npm install
+
+```
+Here the full code documentation [documentations](https://terminusdb.github.io/terminusdb-access-control/#/) 
+
+Now run the example.
+
+```bash
+$ npm run dev
+```

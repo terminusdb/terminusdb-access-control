@@ -1,7 +1,7 @@
 - [README.md](README.md)
-  - [Access Control Tutorial](README?id=install-terminusdb-access-control)
   - [What is access control?](README?id=what-is-access-control?)
   - [Role-Based Access Control in TerminusDB](README?id=role-based-access-control-in-terminusdb)
+  - [Access Control Tutorial](README?id=install-terminusdb-access-control)
 - [Tutorial Source](api/src/index.md)
 - [Access Control](api/accessControl.js.md)
   - [createRole](api/accessControl.js.md?id=createrole)
