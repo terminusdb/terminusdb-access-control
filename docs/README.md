@@ -1,6 +1,6 @@
 # TerminusDB 
 
-![Access Control](accesscontrol__01.png)
+![Access Control](./image/accesscontrol__01.png)
 
 ## What is this?
 
@@ -37,12 +37,12 @@ Authentication is a technique used to verify that someone is who they claim to b
 ### Authorization
 In authorization process, it is established if the user (who is already authenticated) is allowed to have access to a resource. In other words, authorization determines what a user is and is not permitted to do. The level of authorization that is to be given to a user is determined by the metadata concerning the user’s account. 
 
-![Access Control](accesscontrol__02.png)
+![Access Control](./image/accesscontrol__02.png)
 
 ### Role-Based Access Control in TerminusDB
 TerminusDB provides mechanisms to allow users to limit the access to their resources. Role/Capability system ensures that all users may perform only the operations permitted to them.
 
-![Access Control](accesscontrol__03.png)
+![Access Control](./image/accesscontrol__03.png)
 
 Database superusers admin
 You need to be the database administrator to add user, organization and manage access and roles.
@@ -71,11 +71,3 @@ Organization/Team or Database
 #### Database 
 The databases belong to an organization and they inherit the organization User Role.
 You can override this role, adding a capability/role at database level.
-
-
-
-
-
-
- 
-

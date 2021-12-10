@@ -49,7 +49,11 @@ async function createCustomRole(){
                          ACTIONS.META_READ_ACCESS]
         const result = await accessControl.createRole(customRole,label,actions)
     }catch(err){
-        console.log(err.message)
+        const errorType = err.data && err.data["api:error"] ? err.data["api:error"]["@type"] : null
+        if(errorType !== 'api:DocumentIdAlreadyExists'){
+            throw err
+        }
+        console.log(`The Document ${customRole} already exists`)
     }
 }
 
@@ -78,15 +82,14 @@ const db__02 = "Database__02"
 
 The database administrator (admin) can create such capability-role that lets another user to access a specific resource
 
-A capability is a connection between Role and Resource (organizations or batabases)
+A capability is a connection between Role and Resource (organizations or batabases) 
 
 ```javascript
 async function createUsersAndTeams(){
-    try{
         /*
         *Create the new Organization Team__01 and the User User__01 with Role/admin to access this Organization
-        *this means that the user has admin level of access for this Organization 
-        *and for all the databases under this Organization
+        *this means that the user has admin level of access over this Organization 
+        *and the databases controlled by the organization.
         *We are creating the User with NO_KEY, 
         *we are using TerminusDB for authorization.
         */
@@ -104,11 +107,8 @@ async function createUsersAndTeams(){
         /*assign the custom role (Role/reader) to the User User__03 over the Organization Team__01*/
         await accessControl.addExistsUserToOrganization(team__01,user__03,customRole)
 
-    }catch(err){
-        const errData = err.data || {}
-        console.log(JSON.stringify(errData,null,4))
-        console.log(err.message)
-    }
+        
+
 }
 
 
@@ -122,19 +122,15 @@ The User can create a database under an Organization only if he has a Role that 
 
 ```javascript
 async function createDB(){
-    try{
-          const clientTeam01 = new TerminusClient.WOQLClient(serverHost, {user:user__01,key:NO_KEY,Organization:team__01})
+          const clientTeam01 = new TerminusClient.WOQLClient(serverHost, {user:user__01,key:NO_KEY,organization:team__01})
           await clientTeam01.createDatabase(db__01, {label: db__01 , comment: "add db", schema: true}) 
           await clientTeam01.createDatabase(db__02, {label: db__02 , comment: "add db", schema: true}) 
-    }catch(err){
-        console.log(err.message)
-    }
 }
 
 
-async function deleteDatabase (team,user,db){
+async function deleteDatabase (db){
     try{
-        const clientTeam01 = new TerminusClient.WOQLClient(serverHost, {user:user__01,key:NO_KEY,Organization:team__01})
+        const clientTeam01 = new TerminusClient.WOQLClient(serverHost, {user:user__01,key:NO_KEY,organization:team__01})
         await clientTeam01.deleteDatabase(db)
     }catch(err){
         console.log(`the database ${db} doesn't exists`)
@@ -185,20 +181,31 @@ async function deleteUsersAndTeamsIfExists(){
 
 async function run (){
     /*create a custom role*/
-    await createCustomRole()
-    /*create all the users and teams*/
-    await createUsersAndTeams()
+    try{
+        await createCustomRole()
+        console.log("Created the custom role reader ......")
+        console.log("...............")
+        /*create all the users and teams*/
+        await createUsersAndTeams()
+        console.log("Created Organizations and Users ......")
+        console.log("................")
 
-    await createDB()
+        await createDB()
+        console.log("Created Databases ......")
+        console.log("................")
 
-    /*see the Team's Users Role*/
-    const teamCapabilities = await accessControl.getListUserRoles(team__01)
-    console.log(JSON.stringify(teamCapabilities,null,4))
+        /*see the Team's Users Role*/
+        const teamCapabilities = await accessControl.getListUserRoles(team__01)
+        console.log("the Team__01 Users Role")
+        console.log( JSON.stringify(teamCapabilities,null,4))
+        console.log(".....................")
 
-    /*get all the database under this Organization*/
-    const dbList = await accessControl.getDatabaseList(team__01)
-    console.log(JSON.stringify(dbList,null,4))
-    
+        /*get all the database under this Organization*/
+        const dbList = await accessControl.getDatabaseList(team__01)
+        console.log("Team__01 databases")
+        console.log(JSON.stringify(dbList,null,4))
+        console.log(".....................")
+        
 ```
 
 the User has a role access level for the Organization and all the databases under this Organization
@@ -206,16 +213,25 @@ the system administrator (admin) can assign to a User a different role for a spe
 the role at database level works only if it is a higher role than the Organization access level
 
 ```javascript
-    await accessControl.createDatabaseRole(team__01,user__03,db__02,adminRole)
-    /*return the User roles at database level if setted*/
-    const databaseCap= await accessControl.getUserDatabasesRoles(user__03)
-    console.log(JSON.stringify(databaseCap,null,4))
+        await accessControl.createDatabaseRole(team__01,user__03,db__02,adminRole)
+        /*return the User roles at database level if setted*/
+        const databaseCap= await accessControl.getUserDatabasesRoles(user__03)
+        console.log("The User__03 database Roles")
+        console.log(JSON.stringify(databaseCap,null,4))
 
-    /*f you need to delete a User or an Organization look at this function*/
-    /*await deleteUsersAndTeamsIfExists()*/  
+    }catch(err){
+        const data = err.data || {}
+        console.log(err.message)
+        if(data.message)console.log(data.message)
+    }
 }
 
+/*if you need to delete a User or an Organization look at this function*/
+async function deleteall(){
+    await deleteUsersAndTeamsIfExists()
+}
 run()
+
 
 
 ```
