@@ -70,5 +70,5 @@ Here the full code documentation [documentations](https://terminusdb.github.io/t
 Now run the example.
 
 ```bash
-$ npm run dev
+$ npm run start
 ```
