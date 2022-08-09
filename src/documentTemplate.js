@@ -1,4 +1,4 @@
-const {WOQL} = require("@terminusdb/terminusdb-client")
+const {WOQL,UTILS} = require("@terminusdb/terminusdb-client")
 
 /**
  * the default roles in terminusDB system database
@@ -179,7 +179,7 @@ function docRole(id,label,actions){
  * @returns {string}
  */
 function elementID(docType,docName){
-    return `${docType}/${encodeURIComponent(docName)}`
+    return `${docType}/${UTILS.encodeURISegment(docName)}`
 }
 
 
