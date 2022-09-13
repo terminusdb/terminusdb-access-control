@@ -7,8 +7,7 @@ Here the full [documentations](https://terminusdb.github.io/terminusdb-access-co
 ## What is this?
 
 In this tutorial, you will learn about the role-based access control in [TerminusDB](https://terminusdb.com). 
-We are going to use the document interface to access the terminusDB system database and manage the access control for three different users. 
-We are planning to implement API to cover this functionality in TerminusDB but you can use this solution in the meantime.
+We are going to use the [AccessControl](https://terminusdb.com/docs/index/terminusx-db/reference-guides/javascript-client-reference/accesscontrol) driver in terminusDB-Client library to access the terminusDB system database and manage the access control for three different users. 
 
 ### What is access control?
 In the process of access control, after we establish who the user is and what he can access to, we need to actively prevent that users can access anything they should not, the required security for a particular resource is enforced. At a high level, database access control is a selective restriction of access to data. It consists of two main components: authentication and authorization.
