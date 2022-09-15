@@ -1,5 +1,5 @@
  //The following code example uses the AccessControl class in TerminusClient library
- //to manage users access control to Organizations and databases
+ //to manage users and their access control to organizations/teams and databases
 
 /* Import terminusdb-client */
 const TerminusClient = require("@terminusdb/terminusdb-client")
@@ -8,7 +8,7 @@ const TerminusClient = require("@terminusdb/terminusdb-client")
 const {ACTIONS} = TerminusClient.UTILS
 
 /*We are using TerminusDB for Authorization 
-so we'll create all the User with a NO_KEY password*/
+so we'll create all Users with a NO_KEY password*/
 const NO_KEY = "NO_KEY"
 
 /*TerminusDB server host url*/
@@ -55,7 +55,7 @@ const writerActions = [ ACTIONS.COMMIT_WRITE_ACCESS,
 
 const schemaWriterActions = [ ACTIONS.SCHEMA_WRITE_ACCESS]
 
-// Roles are sets of actions (permissions) that you can use to grant or restrict access to specific resource and operations.
+// Roles are sets of actions (permissions) that you can use to grant or restrict access to specific resources and operations.
 // Only the global admin can create Roles
 async function createCustomRoles(){
     try{
@@ -82,11 +82,11 @@ async function createCustomRoles(){
 }
 
 
-// The dataproducts (or databases) are create under a Team (or Organization). 
+// The data products (or databases) are created under a Team/Organization. 
 // By linking a User to a Team (capability), 
 // the User has access to all the dataproducts under this Team
 
-// The list of all the users, teams and dataproducts that we are going to create
+// The list of all the users, teams and data products that we are going to create
 const user__01 = "User__01"
 const user__02 = "User__02"
 const user__03 = "User__03"
@@ -99,7 +99,7 @@ const db__01 = "dataproduct__01"
 const db__02 = "dataproduct__02"
 
 // Using the admin user we are creating three different teams, 
-// in this moment no user is connected with this team
+// currently no user is connected with any of these teams
 async function createTeams(){
     const team_id01 = await accessControl.createOrganization(team__01)
     console.log("team__01 as been created", team_id01)
@@ -109,8 +109,8 @@ async function createTeams(){
     console.log("team__03 as been created", team_id03)
 }
 
-//we are create the users with the same password "NO_KEY" 
-//we are using TerminusDB for authorization.
+//We'll create the users with the same password "NO_KEY" 
+//as we are using TerminusDB for authorization.
 
 async function createUsers(){
     const user_id01 = await accessControl.createUser(user__01,NO_KEY)
@@ -121,29 +121,29 @@ async function createUsers(){
     console.log("user__01 as been created", user_id03)
 }
 
-// The TerminusDB administrator (admin) can create such capability-role 
-// that lets another user to access a specific resource
-// A capability is a connection between Roles and Resource (teams or dataproducts) 
-// we are going to connect the teams with the user with the appAdmin role 
-// this user can create the dataproducts under the team, manage the schema insert data etc...
+// The TerminusDB administrator (admin) can create capability-roles 
+// that lets other users access specific resources.
+// A capability is a connection between Roles and Resource (teams and data products) 
+// We are going to connect the teams with users with the appAdmin role, 
+// this user can create data products under the team, manage the schema, insert data etc...
 
 async function connectTeamsWithUserAppAdminRole(){
-    /* the user_01 is the appAdmin of team team__01, 
-    team team__03 and the databases controlled by the team.*/
+    /* user_01 is the appAdmin of team__01 and
+    team__03 and the databases within them.*/
     const link01 = await accessControl.manageCapability(user__01, team__01, ["appAdmin"], "grant", "organization")
     console.log(`The user ${user__01} has been added to ${team__01} with appAdmin role, ${link01}`)
     const link03 = await accessControl.manageCapability(user__01, team__03, ["appAdmin"], "grant", "organization")
     console.log(`The user ${user__01} has been added to ${team__03} with appAdmin role, ${link03}`)
 
-    /*the user_02 is the appAdmin of team team__02 
-    and the databases controlled by the team.*/
+    /*user_02 is the appAdmin of team__02 
+    and the databases within it.*/
     const link02 = await accessControl.manageCapability(user__02, team__02, ["appAdmin"], "grant",  "organization")
     console.log(`The user ${user__02} has been added to ${team__02} with appAdmin role, ${link02}`)
 }
 
 
 async function connectTeam01WithOtherUsers(){
-    /*Connect User__02  assign the custom role Role/reader to access the team resource team__01*/
+    /*Assign User__02 with custom role, Role/reader, to access resource team__01*/
     const link04 = await accessControl.manageCapability(user__02, team__01, ["reader"], "grant","organization")
     console.log(`The user ${user__02} has been added to ${team__01} with appAdmin role, ${link04} `)
 
@@ -151,27 +151,27 @@ async function connectTeam01WithOtherUsers(){
     console.log(`The user ${user__03} has been added to ${team__01} with appAdmin role, ${link05}`)
 }
 
-//Create a new TerminusDB client instance for User__01 with NO_KEY setting. 
-//We assuming that the User is already logged in the system, the identity of the User is verified,
+//Now we will create a new TerminusDB client instance for User__01 with NO_KEY settings. 
+//We assume that the User is already logged in the system, the identity of the User is verified,
 //so we don't need to verify this again in TerminusDB.
-//The User can create a database under a team only if he has a Role that allow to "create_database"
+//The User can only create a database under a team if they have a Role that allows "create_database"
 async function createDB(){
     const clientTeam01 = new TerminusClient.WOQLClient(serverHost, {user:user__01,key:NO_KEY,organization:team__01})
     await clientTeam01.createDatabase(db__01, {label: db__01 , comment: "add db", schema: true})
     console.log(`The dataproduct ${db__01} has been created by ${user__01}`) 
     await clientTeam01.createDatabase(db__02, {label: db__02 , comment: "add db", schema: true})  
     console.log(`The dataproduct ${db__02} has been created by ${user__01}`) 
-    /* if you try to create a db without the write permission you'll get an error*/
+    /* if trying to create a db without write permissions you'll get an error*/
 }
 
-//we are testing that User__02 does not have the permission to create databases under team__01 
+//We'll test that User__02 does not have  permission to create databases under team__01 
 async function errorCreateDatabase(){
     try{
         const clientTeamUser02 = new TerminusClient.WOQLClient(serverHost, {user:user__02,key:NO_KEY,organization:team__01})
         const accessControlUser02 = new TerminusClient.AccessControl(serverHost, {user:user__02,key:NO_KEY,organization:team__01})
 
-        /* we can see the list of the action allowed for the connected user
-        you can call this api if you are the admin user or only for yourself*/
+        /* we can see a list of actions allowed for the connected user.
+        You can call this API if you are the admin user or, if not, only for yourself*/
         const roles = await accessControlUser02.getTeamUserRoles(user__02)
 
         console.log("user_02 roles" , JSON.stringify(roles,null, 4))
@@ -183,11 +183,11 @@ async function errorCreateDatabase(){
     }
 }
 
-// add a roles at dataproducts level. 
+// Add roles at data product level. 
 // The user has no specific permissions at data product level, 
 // but each data product inherits the team access level, in this instance a reader role.
-// we are going to increase the permissions for the User_02 to access the dataproduct dataproduct_01
-// if the resource is a dataproduct we need to pass the team/dataproduct path 
+// we are going to increase the permissions for the User_02 to access dataproduct_01
+// if the resource is a data product we need to pass the team/dataproduct path 
 async function addCapabilityRolesForDataproduct(){
     const link06 = await accessControl.manageCapability(user__02, `${team__01}/${db__02}`, ["writer","schema_writer"], "grant","database")
     console.log(`The user ${user__02} has been added to ${team__01}/${db__02} with appAdmin role, ${link06} `)
@@ -198,10 +198,9 @@ async function addCapabilityRolesForDataproduct(){
 
 }
 
-// You must be very careful when you remove dataproduct, team and users
-// for removing a team you have to remove all the databse under that team and all the users 
-// that means revoke the capability between user and organization,
-// but before remove all the databases or you can not do it without user linked to the organization
+// You must be very careful if removing data products, teams, and users
+// as removing a team will remove all the databases under that team along with all the users. 
+// In order to remove a team/organization you need first remove all the database under it and then revoke the capability between user and organization,
 async function deleteDatabase (db){
     try{
         const clientTeam01 = new TerminusClient.WOQLClient(serverHost, {user:user__01,key:NO_KEY,organization:team__01})
@@ -215,14 +214,14 @@ async function deleteDatabase (db){
 async function deleteUsersAndTeamsIfExists(){
     try{
         /* Important delete the databases before the User with appAdmin role 
-          If no appAdmin user is related with the Organization 
+          If no appAdmin user is related with the Team/Organization 
           you can not remove the databases*/
         await deleteDatabase(db__01) 
         await deleteDatabase(db__02) 
 
-        /*The organization can not be removed as it is referred to by a capability. 
-        We have to remove the grant of this capability to the organization before removing.
-        With this operation the Users still exists is only not related with the Organization any more*/
+        /*A team/organization cannot be removed as it is referred to by a capability. 
+        We need to revoke these capabilities assigned to the team/organization before removing.
+        With this operation the Users still exist but no longer related to the Organization any more*/
         await accessControl.manageCapability (user__02, team__01, ["reader"], "revoke", "organization")
         console.log(`the ${user__02} has been deleted from the ${team__01}`)
         await accessControl.manageCapability (user__03, team__01, ["reader","writer"], "revoke","organization")
@@ -300,9 +299,9 @@ async function run (){
         console.log("................")
 
         /* update permission for dataproduct
-        the User has a role access level for the team and all the databases under this team
-        the system administrator (admin) can assign to a User a different role for a specific database
-        the role at database level works only if it is a higher role than the team access level*/
+        A User has a role access level for a team/organization and all the databases under this it.
+        The system administrator (admin) can assign a User with a different role for a specific database.
+        The role at database level only works if it is a higher role than the team access level*/
 
         await addCapabilityRolesForDataproduct()
         console.log("the permission for a dataproduct has been granted")
