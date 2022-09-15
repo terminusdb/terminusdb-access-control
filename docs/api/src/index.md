@@ -7,7 +7,7 @@ to manage users access control to Organizations and databases
 
 ```javascript
 /* Import terminusdb-client */
-const TerminusClient = require("../../terminusdb-client/index")
+const TerminusClient = require("@terminusdb/terminusdb-client")
 
 /*Import the list of allowed actions */
 const {ACTIONS} = TerminusClient.UTILS

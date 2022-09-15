@@ -14,7 +14,7 @@
   "author": "francesca@terminusdb.com",
   "license": "ISC",
   "dependencies": {
-    "@terminusdb/terminusdb-client": "github:terminusdb/terminusdb-client#main",
+    "@terminusdb/terminusdb-client": "^10.0.18",
     "docco-next": "^0.9.9",
     "docsify-cli": "^4.4.3",
     "jsdoc-to-markdown": "^7.1.0"
