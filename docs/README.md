@@ -71,3 +71,7 @@ Now run the example.
 ```bash
 $ npm run start
 ```
+
+### Manage Access Control with the TerminusDB local dashboard
+
+You can also manage access control with the TerminusDB local dashboard. [Visit our documentation pages for full details](https://terminusdb.com/docs/guides/how-to-guides/manage-access-control).
