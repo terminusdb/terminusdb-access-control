@@ -1,6 +1,6 @@
 # TerminusDB Role-Based Access Control
 
-![Access Control](./image/accesscontrol__01.png)
+![Access Control](./image/accesscontrol__01_new.png)
 
 Here the full [documentations](https://terminusdb.github.io/terminusdb-access-control/#/) 
 
