@@ -6,17 +6,13 @@
   "scripts": {
     "start": "node src/index.js",
     "mkdocs:src": "docco src/index.js -l plain -x md -o docs/api",
-    "mkdocs:api": "jsdoc2md  --partial docs/partials/scope.hbs  docs/partials/header.hbs docs/partials/member-index.hbs --helper docs/partials/format.js ",
     "mkdocs": "cp README.md docs/ && npm run mkdocs:src",
-    "docs": "docsify serve docs",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "francesca@terminusdb.com",
   "license": "ISC",
   "dependencies": {
     "@terminusdb/terminusdb-client": "^10.0.18",
-    "docco-next": "^0.9.9",
-    "docsify-cli": "^4.4.3",
-    "jsdoc-to-markdown": "^7.1.0"
+    "docco-next": "^0.9.9"
   }
 }
