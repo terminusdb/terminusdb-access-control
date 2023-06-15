@@ -7,7 +7,7 @@ Here the full [documentation](https://terminusdb.github.io/terminusdb-access-con
 ## Access control tutorial
 
 In this tutorial, you will learn about the role-based access control in [TerminusDB](https://terminusdb.com). 
-We are going to use the [AccessControl](https://terminusdb.com/docs/guides/reference-guides/javascript-client-reference/accesscontrol) driver in the TerminusDB JavaScript Client Library to access the TerminusDB system database and manage the access control for three different users.
+We are going to use the [AccessControl](https://terminusdb.com/docs/js-access-control) driver in the TerminusDB JavaScript Client Library to access the TerminusDB system database and manage the access control for three different users.
 
 ## Access control explained
 The purpose of access control is to establish who the user is and what thye can access. It is also essential to actively prevent users from accessing anything they should not and the required security for a particular resource is enforced. At a high level, database access control is a selective restriction of access to data. It consists of two main components: authentication and authorization.
